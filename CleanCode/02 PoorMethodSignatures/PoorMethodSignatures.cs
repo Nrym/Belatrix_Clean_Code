@@ -20,23 +20,10 @@ namespace CleanCode.PoorMethodSignatures
 
         public User GetUser(string username, string password, bool login)
         {
-            if (login)
-            {
-                // Check if there is a user with the given username and password in db
-                // If yes, set the last login date 
-                // and then return the user. 
-                var user = _dbContext.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
-                if (user != null)
-                    user.LastLogin = DateTime.Now;
-                return user;
-            }
-            else
-            {
-                // Check if there is a user with the given username
-                // If yes, return it, otherwise return null
-                var user = _dbContext.Users.SingleOrDefault(u => u.Username == username);
-                return user;
-            }
+            var user = login ? _dbContext.Users.SingleOrDefault(u => u.Username == username && u.Password == password) : null;
+            if (user != null)
+                user.LastLogin = DateTime.Now;
+            return user;
         }
     }
 
